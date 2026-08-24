@@ -1,0 +1,23 @@
+{
+  "name": "kentik-jira-alerts-integration",
+  "version": "1.1.41",
+  "description": "Atlassian Forge app that connects Jira issues and JSM Operations alerts with Kentik alert workflows.",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "lint": "eslint src/**/* static/**/*"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "dependencies": {
+    "@forge/api": "7.2.1",
+    "@forge/bridge": "5.16.2",
+    "@forge/react": "11.16.1",
+    "@forge/resolver": "1.8.0",
+    "@forge/kvs": "1.6.4",
+    "react": "^18.2.0"
+  }
+}

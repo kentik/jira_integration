@@ -1,0 +1,70 @@
+modules:
+  trigger:
+    - key: jira-issue-created-trigger
+      events:
+        - avi:jira:created:issue
+      function: handleIssueCreated
+    - key: jira-issue-updated-trigger
+      events:
+        - avi:jira:updated:issue
+        - avi:jira:commented:issue
+      function: handleEvent
+
+  # 2. The admin page where you store credentials 
+  jira:adminPage:
+    - key: alerts-integration-admin-page
+      resource: admin-assets
+      resolver:
+        function: resolver
+      render: native
+      title: Kentik API Integration Settings
+
+  jira:issueAction:
+    - key: kentik-ai-action
+      title: Investigate with Kentik AI
+      resource: ai-assets
+      render: native
+      viewportSize: xlarge
+      resolver:
+        function: ai-resolver
+      displayConditions:
+        entityPropertyExists:
+          entity: issue
+          propertyKey: kentik-alertId
+
+  function:
+    - key: handleIssueCreated
+      handler: index.handleIssueCreated
+    - key: handleEvent
+      handler: index.handleEvent
+    - key: resolver
+      handler: index.handler
+    - key: ai-resolver
+      handler: index.aiHandler
+
+resources:
+  - key: admin-assets
+    path: static/admin-page/index.jsx
+
+  - key: ai-assets
+    path: static/macro-ai/index.jsx
+
+app:
+  runtime:
+    name: nodejs24.x
+    memoryMB: 256
+    architecture: arm64
+
+permissions:
+  external:
+    fetch:
+      backend:
+        - address: 'https://grpc.api.kentik.com'
+  scopes:
+    - 'read:jira-work'
+    - 'write:jira-work'
+    - 'manage:jira-configuration'
+    - 'storage:app'
+    - 'read:incident:jira-service-management'
+    - 'read:ops-alert:jira-service-management'
+    - 'read:jira-user'
